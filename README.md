@@ -1,5 +1,7 @@
 # AI Prototype Builder
 
+![AI Prototype Builder](docs/okladka.png)
+
 Na wejściu firma. Na wyjściu działający prototyp jej strony: z ruchem, czatem z maskotką firmy, kreatorem wyceny, który naprawdę wysyła zgłoszenie, cennikiem i asystentem głosowym do pokazu przez telefon.
 
 *Company in, working website prototype out: motion, a chat with the company's own mascot, a quote wizard that really sends, a pricing page and a voice assistant demo.*
