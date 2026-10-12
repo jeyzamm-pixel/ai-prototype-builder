@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Prototyp</title>
+<style>:root{--a:#c8791a;--ciemny:#2b1d12;--tlo:#fbf6ee;--linia:#e6d8c3}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,Segoe UI,sans-serif;background:var(--tlo);color:var(--ciemny);overflow-x:hidden}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+header{background:linear-gradient(160deg,#4a2f18,#2b1d12);color:#fff;padding:56px 0 48px}
+.nad{letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:#f0c27a;margin:0 0 10px}
+h1{font-size:clamp(34px,7vw,60px);line-height:1.05;margin:0 0 12px}
+h2{font-size:26px;margin:0 0 12px}
+section{padding:36px 0;border-bottom:1px solid var(--linia)}
+button{font:inherit;background:var(--a);color:#fff;border:0;border-radius:999px;padding:10px 20px;cursor:pointer}
+ul,ol{padding-left:20px;margin:0}li{margin:4px 0}
+.opinia{background:#fff;border:1px solid var(--linia);border-radius:12px;padding:12px 14px;margin:8px 0}
+.opinia small{color:#7a6650}
+footer{padding:20px 0 120px;color:#7a6650}
+.czat{position:fixed;right:12px;bottom:12px;width:min(340px,calc(100vw - 24px));background:#fff;border:1px solid var(--linia);border-radius:16px;box-shadow:0 8px 30px #0003;display:flex;flex-direction:column;max-height:60vh}
+.czat-g{background:var(--ciemny);color:#fff;padding:10px 14px;border-radius:15px 15px 0 0}
+.log{padding:10px;overflow:auto;display:flex;flex-direction:column;gap:6px;min-height:80px}
+.m{padding:7px 11px;border-radius:12px;max-width:86%}.m.b{background:#f3e9d9;align-self:flex-start}.m.u{background:var(--a);color:#fff;align-self:flex-end}
+.pod{display:flex;gap:6px;flex-wrap:wrap;padding:0 10px 6px}.pod button{background:#f3e9d9;color:var(--ciemny);padding:5px 10px;font-size:13px}
+#czat-form{display:flex;gap:6px;padding:8px;border-top:1px solid var(--linia)}#czat-form input{flex:1;min-width:0;font:inherit;padding:8px;border:1px solid var(--linia);border-radius:10px}
+.modal{position:fixed;inset:0;background:#0007;display:flex;align-items:flex-end;justify-content:center;z-index:9}.modal[hidden]{display:none}
+.karta{background:#fff;width:min(480px,100%);border-radius:18px 18px 0 0;padding:22px}
+.opcje{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.opcje button{background:#f3e9d9;color:var(--ciemny);border-radius:12px;padding:14px}
+#k-krok{font-weight:700;font-size:18px}
+</style>
+</head>
+<body>
+<header id="hero" data-sekcja="hero"><div class="wrap"><p class="nad" id="h-nad"></p><h1 id="h-tytul"></h1><p id="h-opis"></p>
+<div class="przyciski"><button id="b-kreator" data-sekcja="kreator">Zamów</button></div></div></header>
+<section id="oferta" data-sekcja="oferta"><div class="wrap"><h2>Oferta</h2><ul id="oferta-lista"></ul></div></section>
+<section id="opinie" data-sekcja="opinie"><div class="wrap"><h2>Opinie</h2><div id="opinie-lista"></div></div></section>
+<section id="pokaz" data-sekcja="pokaz"><div class="wrap"><h2>Jak to działa</h2><ol id="pokaz-lista"></ol></div></section>
+<div id="czat" data-sekcja="czat" class="czat"><div class="czat-g"><b id="czat-nazwa"></b></div><div id="czat-log" class="log"></div>
+<div id="czat-pod" class="pod"></div><form id="czat-form"><input id="czat-in" placeholder="Napisz pytanie..." autocomplete="off"><button>Wyślij</button></form></div>
+<div id="kreator" data-sekcja="kreator" class="modal" hidden><div class="karta"><div id="k-krok"></div><div id="k-opcje" class="opcje"></div><div id="k-wynik"></div></div></div>
+<footer><div class="wrap"><small id="stopka"></small></div></footer>
+<script>window.DANE = {
+  firma: 'Piekarnia Przykładowa',
+  hero: { nad: 'Piekarnia rzemieślnicza', tytul: 'Chleb, na który się czeka', opis: 'Pieczemy codziennie od rana. Chleb na zakwasie, bułki, drożdżówki i torty na zamówienie.' },
+  oferta: ['Chleb na zakwasie', 'Bułki i drożdżówki', 'Torty na zamówienie', 'Zamówienia na rano'],
+  opinie: [
+    { tekst: 'Najlepszy żytni w okolicy, zawsze jeszcze ciepły.', autor: 'Ania, klientka' },
+    { tekst: 'Tort na urodziny gotowy dokładnie na czas.', autor: 'Marek, klient' }
+  ],
+  pokaz: ['Pokazujemy Państwa firmę w działającym prototypie.', 'Można w nim zadać pytanie asystentowi.', 'Kreator zbiera zamówienie i wysyła je do właściciela.'],
+  czat: {
+    powitanie: 'Dzień dobry! Jestem asystentem Piekarni Przykładowej. W czym pomóc?',
+    podpowiedzi: ['Godziny otwarcia', 'Tort na zamówienie'],
+    odpowiedzi: [
+      { slowa: ['godzin', 'otwar'], tekst: 'Jesteśmy czynni od poniedziałku do soboty od szóstej rano.' },
+      { slowa: ['tort', 'zamówieni'], tekst: 'Torty przyjmujemy z trzydniowym wyprzedzeniem.' }
+    ],
+    domyslna: 'Zostaw numer, oddzwonimy jeszcze dziś.'
+  },
+  kreator: { kroki: [
+    { pytanie: 'Co zamawiasz?', opcje: ['Tort', 'Chleb na rano', 'Ciasta na przyjęcie', 'Dla firmy'] },
+    { pytanie: 'Na kiedy?', opcje: ['Jutro', 'W tym tygodniu', 'Później'] }
+  ] },
+  stopka: 'Piekarnia Przykładowa, ul. Przykładowa 1, Miasto Testowe. Prototyp demonstracyjny.'
+};
+</script>
+<script>(function () {
+  var D = window.DANE || {};
+  var $ = function (id) { return document.getElementById(id); };
+  var ma = {
+    hero: !!D.hero, oferta: !!(D.oferta && D.oferta.length), opinie: !!(D.opinie && D.opinie.length),
+    pokaz: !!(D.pokaz && D.pokaz.length), czat: !!D.czat, kreator: !!(D.kreator && D.kreator.kroki && D.kreator.kroki.length)
+  };
+  // Sekcja bez danych sama znika.
+  Object.keys(ma).forEach(function (k) {
+    document.querySelectorAll('[data-sekcja="' + k + '"]').forEach(function (el) { if (!ma[k]) el.remove(); });
+  });
+  document.title = D.firma || 'Prototyp';
+  if (ma.hero) { $('h-nad').textContent = D.hero.nad || D.firma; $('h-tytul').textContent = D.hero.tytul; $('h-opis').textContent = D.hero.opis || ''; }
+  if (ma.oferta) D.oferta.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; $('oferta-lista').appendChild(li); });
+  if (ma.opinie) D.opinie.forEach(function (o) {
+    var d = document.createElement('div'); d.className = 'opinia';
+    var t = document.createElement('span'); t.textContent = o.tekst; var a = document.createElement('small'); a.textContent = o.autor;
+    d.appendChild(t); d.appendChild(document.createElement('br')); d.appendChild(a); $('opinie-lista').appendChild(d);
+  });
+  if (ma.pokaz) D.pokaz.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; $('pokaz-lista').appendChild(li); });
+  $('stopka').textContent = D.stopka || '';
+
+  if (ma.czat) {
+    $('czat-nazwa').textContent = 'Asystent: ' + D.firma;
+    var log = $('czat-log');
+    var say = function (t, kto) { var m = document.createElement('div'); m.className = 'm ' + kto; m.textContent = t; log.appendChild(m); log.scrollTop = log.scrollHeight; };
+    // Czat bez LLM: odpowiedzi ze słów kluczowych z dane.js.
+    var odpowiedz = function (q) {
+      q = q.toLowerCase();
+      var o = D.czat.odpowiedzi.filter(function (r) { return r.slowa.some(function (s) { return q.indexOf(s) >= 0; }); })[0];
+      return o ? o.tekst : D.czat.domyslna;
+    };
+    var pytaj = function (q) { say(q, 'u'); say(odpowiedz(q), 'b'); };
+    say(D.czat.powitanie, 'b');
+    D.czat.podpowiedzi.forEach(function (p) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = p; b.onclick = function () { pytaj(p); }; $('czat-pod').appendChild(b);
+    });
+    $('czat-form').onsubmit = function (e) { e.preventDefault(); var v = $('czat-in').value.trim(); if (v) { pytaj(v); $('czat-in').value = ''; } };
+  }
+
+  if (ma.kreator) {
+    var krok = 0, odp = [];
+    var rysuj = function () {
+      var k = D.kreator.kroki[krok];
+      $('k-krok').textContent = 'Krok ' + (krok + 1) + ' z ' + D.kreator.kroki.length + ': ' + k.pytanie;
+      $('k-opcje').textContent = '';
+      k.opcje.forEach(function (o) {
+        var b = document.createElement('button'); b.type = 'button'; b.textContent = o;
+        b.onclick = function () { odp.push(o); krok++; krok < D.kreator.kroki.length ? rysuj() : koniec(); };
+        $('k-opcje').appendChild(b);
+      });
+    };
+    var koniec = function () {
+      $('k-opcje').textContent = ''; $('k-krok').textContent = 'Podsumowanie';
+      $('k-wynik').textContent = odp.join(', ') + '. Zgłoszenie wysyłamy teraz. Cenę poda człowiek po rozmowie.';
+      // Kreator naprawdę wysyła zgłoszenie (webhook z dane.js), ale nigdy nie podaje ceny.
+      if (D.kreator.webhook) fetch(D.kreator.webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ firma: D.firma, odpowiedzi: odp }) }).catch(function () {});
+      window.__zgloszenie = { firma: D.firma, odpowiedzi: odp };
+    };
+    $('b-kreator').onclick = function () { krok = 0; odp = []; $('k-wynik').textContent = ''; $('kreator').hidden = false; rysuj(); };
+  }
+  window.__sekcje = ma;
+})();
+</script>
+</body>
+</html>
